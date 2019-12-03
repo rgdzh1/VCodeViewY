@@ -16,8 +16,8 @@
         <attr name="box_focus" format="reference" />
         <!--         输入框失去焦点时候的边框-->
         <attr name="box_not_focus" format="reference" />
-        <!--        输入框是否是密码模式-->
-        <attr name="box_pwd_modle" format="boolean" />
+        <!--        输入框是否是密码模式 true 密文, false 明文-->
+        <attr name="box_pwd_model" format="boolean" />
         <!--        输入框可以输入的是数字还是文本-->
         <attr name="box_input_type">
             <enum name="number" value="0" />

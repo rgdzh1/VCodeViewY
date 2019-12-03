@@ -4,16 +4,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".MainActivity">
+    android:orientation="vertical">
 
     <com.yey.vcodevy.VCodeViewY
+        android:id="@+id/vcv"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_marginTop="100dp"
         app:box_bum="5"
-        app:box_input_type="text"
+        app:box_input_type="number"
         app:box_margin="10dp"
+        app:box_pwd_model="false"
         app:box_text_color="@color/colorPrimary"
-        app:box_pwd_modle="false" />
+        app:box_text_size="5dp" />
+
+    <Button
+        android:id="@+id/clear"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:text="清空" />
+
+    <Button
+        android:id="@+id/show"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:text="明文密文切换" />
 
 </LinearLayout>

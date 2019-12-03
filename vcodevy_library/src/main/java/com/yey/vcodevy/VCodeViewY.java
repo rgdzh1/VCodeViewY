@@ -32,13 +32,17 @@ public class VCodeViewY extends FrameLayout {
     private int mBoxTextSize;
     private int mBoxFocus;
     private int mBoxNotFcous;
-    private boolean mBoxPwdModle;
+    private boolean mBoxPwdModel;
     private ArrayList<AppCompatTextView> mTextViewList;
     private int mBoxTextColor;
     private int mInputIndex;//输入索引
     private int mInputType;
+    private boolean mInputComplete;
     //明文属性转为密文属性 handler
     private Handler mRefreshHandler = new Handler(Looper.getMainLooper());
+    private StringBuffer mContentBuffer = new StringBuffer();
+
+    private IVCodeBack mICodeBack;
 
     public VCodeViewY(Context context) {
         this(context, null);
@@ -71,7 +75,7 @@ public class VCodeViewY extends FrameLayout {
         mBoxTextColor = typedArray.getColor(R.styleable.VCodeViewY_box_text_color, getResources().getColor(R.color.vcvy_balck));
         mBoxFocus = typedArray.getResourceId(R.styleable.VCodeViewY_box_focus, R.drawable.box_focus);
         mBoxNotFcous = typedArray.getResourceId(R.styleable.VCodeViewY_box_not_focus, R.drawable.box_notfoucs);
-        mBoxPwdModle = typedArray.getBoolean(R.styleable.VCodeViewY_box_pwd_modle, false);
+        mBoxPwdModel = typedArray.getBoolean(R.styleable.VCodeViewY_box_pwd_model, false);
         mInputType = typedArray.getInt(R.styleable.VCodeViewY_box_input_type, 0);
         typedArray.recycle();
     }
@@ -84,8 +88,9 @@ public class VCodeViewY extends FrameLayout {
             //TODO 这里Text的大小与边距都没有设置, 在onLayout中去设置
             AppCompatTextView mTextView = new AppCompatTextView(getContext());
             mTextView.setTextColor(mBoxTextColor);
+            mTextView.setTextSize(mBoxTextSize);
             mTextView.setGravity(Gravity.CENTER);
-//            if (mBoxPwdModle){
+//            if (mBoxPwdModel){
 //                //密码模式
 //                mTextView.setTransformationMethod(PasswordTransformationMethod.getInstance());
 //            }
@@ -124,7 +129,6 @@ public class VCodeViewY extends FrameLayout {
         }
     }
 
-    private boolean mInputComplete;//当输入完成之后, 再输入的话就不让输入了
 
     private void initLister() {
         mPet.addTextChangedListener(new TextWatcher() {
@@ -140,24 +144,39 @@ public class VCodeViewY extends FrameLayout {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                Log.e(TAG, editable.toString());
+                Log.d(TAG, editable.toString());
                 if (!TextUtils.isEmpty(editable) && mInputIndex >= 0 && mInputIndex < mBoxNum && !mInputComplete) {
+                    //1.当EditText中有输入时,将该输入取出展示到mInputIndex对应的textview中
+                    //将当前的textview 置为not focus
+                    //2.mInputIndex加1之后对应的textview 背景置为focus
+                    //3.将EditText 数据清除
                     final AppCompatTextView notFouceTextView = mTextViewList.get(mInputIndex);
                     notFouceTextView.setText(editable);
+                    mContentBuffer.append(editable);//添加内容
+                    //输入中回调
+                    if (mICodeBack != null) {
+                        mICodeBack.inputing(mContentBuffer.toString(), mInputIndex);
+                    }
                     notFouceTextView.setBackgroundResource(mBoxNotFcous);
-                    if (mBoxPwdModle) {
-                        mRefreshHandler.postDelayed(new Runnable() {// 将改变TextView属性为展示密文的属性，我改动的
+                    if (mBoxPwdModel) {
+                        mRefreshHandler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
+                                //将textview 属性改为密文属性, 延迟200毫秒从明文变为密文
                                 notFouceTextView.setTransformationMethod(PasswordTransformationMethod.getInstance());
                             }
                         }, 200);
                     }
                     mInputIndex++;
-                    //当mIndex 值超出了索引最大值, 将mIndex --, 此时输入框完成输入.
+                    //当mIndex 值超出了索引最大值,将mInputIndex置为索引最大值,防止索引越界
                     if (mInputIndex > mBoxNum - 1) {
                         mInputIndex--;
+                        //当输入完成之后, 再输入的话就不让输入了
                         mInputComplete = true;
+                        //输入完成回调
+                        if (mICodeBack != null) {
+                            mICodeBack.inputComplete(mContentBuffer.toString());
+                        }
                     }
                     AppCompatTextView fouceTextView = mTextViewList.get(mInputIndex);
                     fouceTextView.setBackgroundResource(mBoxFocus);
@@ -178,38 +197,92 @@ public class VCodeViewY extends FrameLayout {
                     AppCompatTextView mLastText = mTextViewList.get(mBoxNum - 1);
                     String mLastString = mLastText.getText().toString().trim();
                     if (!TextUtils.isEmpty(mLastString)) {
-                        //此时输入完成
+                        //此时输入完成,将最后一个textview内容删除,但是mInputIndex 不要进行减1
+                        //此时最后一个textview背景还是focus
                         mLastText.setText("");
-                        if (mBoxPwdModle) {
+                        if (mBoxPwdModel) {
                             mLastText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                         }
                     } else {
-                        //如果用户此时还没输入完成进行删除
+                        //当最后一个textview没有数据,此时就是没有输入完成删除
+                        //要进行两步操作1.将mInputIndex对应的textview背景置为not focus
+                        //              2.将mInputIndex减1后对应的textview内容删除,并且将该textview 背景置为focus
                         AppCompatTextView fouceTextView = mTextViewList.get(mInputIndex);
                         fouceTextView.setBackgroundResource(mBoxNotFcous);
                         mInputIndex--;
-                        //当mIndex值比0还小, 将mIndex置为0
+                        //若mInputIndex此时为0, 按删除按钮的时候mInputIndex减1就变成了-1,
+                        //会造成索引越界,将mInputIndex置为0,可以避免越界.
                         if (mInputIndex < 0) {
                             mInputIndex = 0;
                         }
                         AppCompatTextView notFouceTextView = mTextViewList.get(mInputIndex);
                         notFouceTextView.setText("");
                         notFouceTextView.setBackgroundResource(mBoxFocus);
-                        if (mBoxPwdModle) {
+                        if (mBoxPwdModel) {
                             notFouceTextView.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                         }
                     }
-                    AppCompatTextView fouceTextView = mTextViewList.get(mInputIndex);
-                    fouceTextView.setBackgroundResource(mBoxFocus);
+                    if (mContentBuffer.length() != 0) {
+                        mContentBuffer.deleteCharAt(mInputIndex);//删除内容
+                        //输入中回调
+                        if (mICodeBack != null) {
+                            mICodeBack.inputing(mContentBuffer.toString(), mInputIndex);
+                        }
+                    }
                 }
                 return false;
             }
         });
     }
 
+    /**
+     * 清除所有输入内容
+     */
+    public void clearAllContent() {
+        mPet.setText("");
+        mInputIndex = 0;
+        mInputComplete = false;//记得此时控件是可输入状态
+        for (int i = 0; i < mTextViewList.size(); i++) {
+            final AppCompatTextView textView = mTextViewList.get(i);
+            mContentBuffer.delete(0, mContentBuffer.length() - 1);
+            textView.setText("");
+            if (i == 0) {
+                textView.setBackgroundResource(mBoxFocus);
+            } else {
+                textView.setBackgroundResource(mBoxNotFcous);
+            }
+        }
+    }
+
+    /**
+     * 显示或者隐藏输入
+     */
+    public void setTextModel() {
+        mBoxPwdModel = !mBoxPwdModel;
+        for (int i = 0; i < mTextViewList.size(); i++) {
+            final AppCompatTextView textView = mTextViewList.get(i);
+            if (mBoxPwdModel) {
+                textView.setTransformationMethod(PasswordTransformationMethod.getInstance());
+            } else {
+                textView.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+            }
+        }
+    }
+
+    /**
+     * @return 控件当前展示的是明文还是密文, 密文为true,明文为false
+     */
+    public boolean boxPwdModel() {
+        return mBoxPwdModel;
+    }
+
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         mRefreshHandler.removeCallbacksAndMessages(null);
+    }
+
+    public void setVCodeBack(IVCodeBack ivCodeBack) {
+        this.mICodeBack = ivCodeBack;
     }
 }
