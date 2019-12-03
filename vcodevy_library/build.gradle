@@ -10,9 +10,7 @@ android {
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles 'consumer-rules.pro'
     }
 
     buildTypes {
@@ -39,7 +37,7 @@ group = "com.yey.vcodevy"
 //libName(库的名字)
 def libName = "VCodeViewY"
 //version(版本号)
-version = "0.0.1"
+version = "0.0.2"
 //生成源文件
 task sourcesJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs

@@ -69,9 +69,11 @@ public class VCodeViewY extends FrameLayout {
     private void initRes(Context context, AttributeSet attrs, int defStyleAttr) {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.VCodeViewY, defStyleAttr, 0);
         mBoxNum = typedArray.getInteger(R.styleable.VCodeViewY_box_bum, 1);
-        mBoxMargin = DensityUtil.dip2px(context, typedArray.getDimensionPixelSize(R.styleable.VCodeViewY_box_margin, 2));
+//        mBoxMargin = DensityUtil.dip2px(context, typedArray.getDimensionPixelSize(R.styleable.VCodeViewY_box_margin, 2));
+        mBoxMargin = typedArray.getDimensionPixelSize(R.styleable.VCodeViewY_box_margin, 6);
         mBoxSizeRate = typedArray.getFloat(R.styleable.VCodeViewY_box_size_parent_height_rate, 0.5f);
-        mBoxTextSize = DensityUtil.dip2px(context, typedArray.getDimensionPixelSize(R.styleable.VCodeViewY_box_text_size, 4));
+//        mBoxTextSize = DensityUtil.dip2px(context, typedArray.getDimensionPixelSize(R.styleable.VCodeViewY_box_text_size, 4));
+        mBoxTextSize = typedArray.getDimensionPixelSize(R.styleable.VCodeViewY_box_text_size, 8);
         mBoxTextColor = typedArray.getColor(R.styleable.VCodeViewY_box_text_color, getResources().getColor(R.color.vcvy_balck));
         mBoxFocus = typedArray.getResourceId(R.styleable.VCodeViewY_box_focus, R.drawable.box_focus);
         mBoxNotFcous = typedArray.getResourceId(R.styleable.VCodeViewY_box_not_focus, R.drawable.box_notfoucs);
@@ -244,7 +246,7 @@ public class VCodeViewY extends FrameLayout {
         mInputComplete = false;//记得此时控件是可输入状态
         for (int i = 0; i < mTextViewList.size(); i++) {
             final AppCompatTextView textView = mTextViewList.get(i);
-            mContentBuffer.delete(0, mContentBuffer.length() - 1);
+            mContentBuffer.delete(0, mContentBuffer.length());
             textView.setText("");
             if (i == 0) {
                 textView.setBackgroundResource(mBoxFocus);
