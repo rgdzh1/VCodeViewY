@@ -9,7 +9,7 @@
         <!--        输入框相对于父容器高度的百分比-->
         <attr name="box_size_parent_height_rate" format="float" />
         <!--        输入框文字大小-->
-        <attr name="box_text_size" format="dimension|reference" />
+        <attr name="box_text_size" format="integer" />
         <!--        输入框文字颜色-->
         <attr name="box_text_color" format="color" />
         <!--        输入框获取焦点时候的边框-->

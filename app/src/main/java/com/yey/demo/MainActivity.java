@@ -45,5 +45,11 @@ public class MainActivity extends AppCompatActivity {
                         mCodeViewY.setTextModel();
                     }
                 });
+        findViewById(R.id.fill).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCodeViewY.fillAllContent("12345");
+            }
+        });
     }
 }

@@ -72,8 +72,7 @@ public class VCodeViewY extends FrameLayout {
 //        mBoxMargin = DensityUtil.dip2px(context, typedArray.getDimensionPixelSize(R.styleable.VCodeViewY_box_margin, 2));
         mBoxMargin = typedArray.getDimensionPixelSize(R.styleable.VCodeViewY_box_margin, 6);
         mBoxSizeRate = typedArray.getFloat(R.styleable.VCodeViewY_box_size_parent_height_rate, 0.5f);
-//        mBoxTextSize = DensityUtil.dip2px(context, typedArray.getDimensionPixelSize(R.styleable.VCodeViewY_box_text_size, 4));
-        mBoxTextSize = typedArray.getDimensionPixelSize(R.styleable.VCodeViewY_box_text_size, 8);
+        mBoxTextSize = DensityUtil.sp2px(context, typedArray.getInteger(R.styleable.VCodeViewY_box_text_size, 8));
         mBoxTextColor = typedArray.getColor(R.styleable.VCodeViewY_box_text_color, getResources().getColor(R.color.vcvy_balck));
         mBoxFocus = typedArray.getResourceId(R.styleable.VCodeViewY_box_focus, R.drawable.box_focus);
         mBoxNotFcous = typedArray.getResourceId(R.styleable.VCodeViewY_box_not_focus, R.drawable.box_notfoucs);
@@ -254,6 +253,50 @@ public class VCodeViewY extends FrameLayout {
                 textView.setBackgroundResource(mBoxNotFcous);
             }
         }
+    }
+
+    /**
+     * 向密码框中填充内容
+     */
+    public void fillAllContent(String content) {
+        if (!TextUtils.isEmpty(content)) {
+            int length = content.length();
+            if (length > mBoxNum) {
+                Log.d(TAG, "fillAllContent: 填充的内容长达比输入框个数要大");
+            } else {
+                mPet.setText("");
+                mInputIndex = length - 1;
+                mInputComplete = true;//记得此时控件是可输入状态
+                mContentBuffer.append(content);
+                char[] chars = content.toCharArray();
+                for (int i = 0; i < mTextViewList.size(); i++) {
+                    final AppCompatTextView textView = mTextViewList.get(i);
+                    if (mBoxPwdModel) {
+                        textView.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    } else {
+                        textView.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    }
+                    textView.setText(String.valueOf(chars[i]));
+                    if (i == mTextViewList.size() - 1) {
+                        textView.setBackgroundResource(mBoxFocus);
+                    } else {
+                        textView.setBackgroundResource(mBoxNotFcous);
+                    }
+                }
+                if (mICodeBack != null) {
+                    mICodeBack.inputComplete(mContentBuffer.toString());
+                }
+            }
+        } else {
+            Log.d(TAG, "fillAllContent: 填充内容不能为空");
+        }
+    }
+
+    /**
+     * 获取密码框中的密码
+     */
+    public String getContent() {
+        return mContentBuffer.toString();
     }
 
     /**

@@ -6,7 +6,7 @@ android {
 
 
     defaultConfig {
-        minSdkVersion 19
+        minSdkVersion 18
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -37,7 +37,7 @@ group = "com.yey.vcodevy"
 //libName(库的名字)
 def libName = "VCodeViewY"
 //version(版本号)
-version = "0.0.2"
+version = "0.0.7"
 //生成源文件
 task sourcesJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
