@@ -12,13 +12,13 @@
         android:layout_height="50dp"
         android:layout_marginTop="100dp"
         app:box_bum="5"
-        app:box_height="40dp"
-        app:box_width="40dp"
+        app:box_height="30dp"
+        app:box_width="30dp"
         app:box_input_type="number"
         app:box_margin="5dp"
         app:box_pwd_model="false"
         app:box_text_color="@color/colorPrimary"
-        app:box_text_size="8sp" />
+        app:box_text_size="12sp" />
 
     <Button
         android:id="@+id/clear"

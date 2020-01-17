@@ -29,7 +29,7 @@ public class VCodeViewY extends FrameLayout {
     private PwdEditText mPet;
     private int mBoxNum;
     private int mBoxMargin;
-    private int mBoxTextSize;
+    private float mBoxTextSize;
     private int mBoxFocus;
     private int mBoxNotFcous;
     private boolean mBoxPwdModel;
@@ -275,7 +275,7 @@ public class VCodeViewY extends FrameLayout {
                 mInputComplete = true;//记得此时控件是可输入状态
                 mContentBuffer.append(content);
                 char[] chars = content.toCharArray();
-                for (int i = 0; i < mTextViewList.size(); i++) {
+                for (int i = 0; i < chars.length; i++) {
                     final TextView textView = mTextViewList.get(i);
                     if (mBoxPwdModel) {
                         textView.setTransformationMethod(PasswordTransformationMethod.getInstance());
