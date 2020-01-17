@@ -16,9 +16,10 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatTextView;
 
 import java.util.ArrayList;
 
@@ -33,7 +34,7 @@ public class VCodeViewY extends FrameLayout {
     private int mBoxFocus;
     private int mBoxNotFcous;
     private boolean mBoxPwdModel;
-    private ArrayList<AppCompatTextView> mTextViewList;
+    private ArrayList<TextView> mTextViewList;
     private int mBoxTextColor;
     private int mInputIndex;//输入索引
     private int mInputType;
@@ -43,6 +44,7 @@ public class VCodeViewY extends FrameLayout {
     private StringBuffer mContentBuffer = new StringBuffer();
 
     private IVCodeBack mICodeBack;
+    private int height;
 
     public VCodeViewY(Context context) {
         this(context, null);
@@ -72,7 +74,7 @@ public class VCodeViewY extends FrameLayout {
 //        mBoxMargin = DensityUtil.dip2px(context, typedArray.getDimensionPixelSize(R.styleable.VCodeViewY_box_margin, 2));
         mBoxMargin = typedArray.getDimensionPixelSize(R.styleable.VCodeViewY_box_margin, 6);
         mBoxSizeRate = typedArray.getFloat(R.styleable.VCodeViewY_box_size_parent_height_rate, 0.5f);
-        mBoxTextSize = DensityUtil.sp2px(context, typedArray.getInteger(R.styleable.VCodeViewY_box_text_size, 8));
+        mBoxTextSize = typedArray.getDimensionPixelSize(R.styleable.VCodeViewY_box_text_size, 16);
         mBoxTextColor = typedArray.getColor(R.styleable.VCodeViewY_box_text_color, getResources().getColor(R.color.vcvy_balck));
         mBoxFocus = typedArray.getResourceId(R.styleable.VCodeViewY_box_focus, R.drawable.box_focus);
         mBoxNotFcous = typedArray.getResourceId(R.styleable.VCodeViewY_box_not_focus, R.drawable.box_notfoucs);
@@ -87,9 +89,9 @@ public class VCodeViewY extends FrameLayout {
         mTextViewList.clear();
         for (int i = 0; i < mBoxNum; i++) {
             //TODO 这里Text的大小与边距都没有设置, 在onLayout中去设置
-            AppCompatTextView mTextView = new AppCompatTextView(getContext());
+            TextView mTextView = new TextView(getContext());
             mTextView.setTextColor(mBoxTextColor);
-            mTextView.setTextSize(mBoxTextSize);
+            mTextView.setTextSize(mBoxTextSize * mBoxSizeRate);
             mTextView.setGravity(Gravity.CENTER);
 //            if (mBoxPwdModel){
 //                //密码模式
@@ -117,16 +119,26 @@ public class VCodeViewY extends FrameLayout {
         }
     }
 
+
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        height = getHeight();
+    }
+
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
-        int mBoxSize = (int) (getHeight() * mBoxSizeRate);
+        int mBoxSize = (int) (height * mBoxSizeRate);
         for (int i = 0; i < mBoxNum; i++) {
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(mBoxSize, mBoxSize);
             if (i != 0) {
                 layoutParams.leftMargin = mBoxMargin;
             }
-            mTextViewList.get(i).setLayoutParams(layoutParams);
+            TextView textView = mTextViewList.get(i);
+            textView.setWidth(mBoxSize);
+            textView.setHeight(mBoxSize);
+            textView.setLayoutParams(layoutParams);
         }
     }
 
@@ -151,7 +163,7 @@ public class VCodeViewY extends FrameLayout {
                     //将当前的textview 置为not focus
                     //2.mInputIndex加1之后对应的textview 背景置为focus
                     //3.将EditText 数据清除
-                    final AppCompatTextView notFouceTextView = mTextViewList.get(mInputIndex);
+                    final TextView notFouceTextView = mTextViewList.get(mInputIndex);
                     notFouceTextView.setText(editable);
                     mContentBuffer.append(editable);//添加内容
                     //输入中回调
@@ -179,7 +191,7 @@ public class VCodeViewY extends FrameLayout {
                             mICodeBack.inputComplete(mContentBuffer.toString());
                         }
                     }
-                    AppCompatTextView fouceTextView = mTextViewList.get(mInputIndex);
+                    TextView fouceTextView = mTextViewList.get(mInputIndex);
                     fouceTextView.setBackgroundResource(mBoxFocus);
                     mPet.setText("");
                 }
@@ -195,7 +207,7 @@ public class VCodeViewY extends FrameLayout {
                 if (mInputIndex >= 0 && mInputIndex < mBoxNum) {
                     //删除了一个空格, 此时可以再输入内容
                     mInputComplete = false;
-                    AppCompatTextView mLastText = mTextViewList.get(mBoxNum - 1);
+                    TextView mLastText = mTextViewList.get(mBoxNum - 1);
                     String mLastString = mLastText.getText().toString().trim();
                     if (!TextUtils.isEmpty(mLastString)) {
                         //此时输入完成,将最后一个textview内容删除,但是mInputIndex 不要进行减1
@@ -208,7 +220,7 @@ public class VCodeViewY extends FrameLayout {
                         //当最后一个textview没有数据,此时就是没有输入完成删除
                         //要进行两步操作1.将mInputIndex对应的textview背景置为not focus
                         //              2.将mInputIndex减1后对应的textview内容删除,并且将该textview 背景置为focus
-                        AppCompatTextView fouceTextView = mTextViewList.get(mInputIndex);
+                        TextView fouceTextView = mTextViewList.get(mInputIndex);
                         fouceTextView.setBackgroundResource(mBoxNotFcous);
                         mInputIndex--;
                         //若mInputIndex此时为0, 按删除按钮的时候mInputIndex减1就变成了-1,
@@ -216,7 +228,7 @@ public class VCodeViewY extends FrameLayout {
                         if (mInputIndex < 0) {
                             mInputIndex = 0;
                         }
-                        AppCompatTextView notFouceTextView = mTextViewList.get(mInputIndex);
+                        TextView notFouceTextView = mTextViewList.get(mInputIndex);
                         notFouceTextView.setText("");
                         notFouceTextView.setBackgroundResource(mBoxFocus);
                         if (mBoxPwdModel) {
@@ -244,7 +256,7 @@ public class VCodeViewY extends FrameLayout {
         mInputIndex = 0;
         mInputComplete = false;//记得此时控件是可输入状态
         for (int i = 0; i < mTextViewList.size(); i++) {
-            final AppCompatTextView textView = mTextViewList.get(i);
+            final TextView textView = mTextViewList.get(i);
             mContentBuffer.delete(0, mContentBuffer.length());
             textView.setText("");
             if (i == 0) {
@@ -270,7 +282,7 @@ public class VCodeViewY extends FrameLayout {
                 mContentBuffer.append(content);
                 char[] chars = content.toCharArray();
                 for (int i = 0; i < mTextViewList.size(); i++) {
-                    final AppCompatTextView textView = mTextViewList.get(i);
+                    final TextView textView = mTextViewList.get(i);
                     if (mBoxPwdModel) {
                         textView.setTransformationMethod(PasswordTransformationMethod.getInstance());
                     } else {
@@ -305,7 +317,7 @@ public class VCodeViewY extends FrameLayout {
     public void setTextModel() {
         mBoxPwdModel = !mBoxPwdModel;
         for (int i = 0; i < mTextViewList.size(); i++) {
-            final AppCompatTextView textView = mTextViewList.get(i);
+            final TextView textView = mTextViewList.get(i);
             if (mBoxPwdModel) {
                 textView.setTransformationMethod(PasswordTransformationMethod.getInstance());
             } else {
