@@ -29,7 +29,6 @@ public class VCodeViewY extends FrameLayout {
     private PwdEditText mPet;
     private int mBoxNum;
     private int mBoxMargin;
-    private float mBoxSizeRate;
     private int mBoxTextSize;
     private int mBoxFocus;
     private int mBoxNotFcous;
@@ -39,12 +38,13 @@ public class VCodeViewY extends FrameLayout {
     private int mInputIndex;//输入索引
     private int mInputType;
     private boolean mInputComplete;
+    private int mBoxHeight;
+    private int mBoxWidth;
     //明文属性转为密文属性 handler
     private Handler mRefreshHandler = new Handler(Looper.getMainLooper());
     private StringBuffer mContentBuffer = new StringBuffer();
 
     private IVCodeBack mICodeBack;
-    private int height;
 
     public VCodeViewY(Context context) {
         this(context, null);
@@ -71,10 +71,10 @@ public class VCodeViewY extends FrameLayout {
     private void initRes(Context context, AttributeSet attrs, int defStyleAttr) {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.VCodeViewY, defStyleAttr, 0);
         mBoxNum = typedArray.getInteger(R.styleable.VCodeViewY_box_bum, 1);
-//        mBoxMargin = DensityUtil.dip2px(context, typedArray.getDimensionPixelSize(R.styleable.VCodeViewY_box_margin, 2));
         mBoxMargin = typedArray.getDimensionPixelSize(R.styleable.VCodeViewY_box_margin, 6);
-        mBoxSizeRate = typedArray.getFloat(R.styleable.VCodeViewY_box_size_parent_height_rate, 0.5f);
         mBoxTextSize = typedArray.getDimensionPixelSize(R.styleable.VCodeViewY_box_text_size, 16);
+        mBoxHeight = typedArray.getDimensionPixelSize(R.styleable.VCodeViewY_box_height, 40);
+        mBoxWidth = typedArray.getDimensionPixelSize(R.styleable.VCodeViewY_box_width, 40);
         mBoxTextColor = typedArray.getColor(R.styleable.VCodeViewY_box_text_color, getResources().getColor(R.color.vcvy_balck));
         mBoxFocus = typedArray.getResourceId(R.styleable.VCodeViewY_box_focus, R.drawable.box_focus);
         mBoxNotFcous = typedArray.getResourceId(R.styleable.VCodeViewY_box_not_focus, R.drawable.box_notfoucs);
@@ -91,7 +91,7 @@ public class VCodeViewY extends FrameLayout {
             //TODO 这里Text的大小与边距都没有设置, 在onLayout中去设置
             TextView mTextView = new TextView(getContext());
             mTextView.setTextColor(mBoxTextColor);
-            mTextView.setTextSize(mBoxTextSize * mBoxSizeRate);
+            mTextView.setTextSize(mBoxTextSize);
             mTextView.setGravity(Gravity.CENTER);
 //            if (mBoxPwdModel){
 //                //密码模式
@@ -120,24 +120,18 @@ public class VCodeViewY extends FrameLayout {
     }
 
 
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-        height = getHeight();
-    }
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
-        int mBoxSize = (int) (height * mBoxSizeRate);
         for (int i = 0; i < mBoxNum; i++) {
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(mBoxSize, mBoxSize);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(mBoxWidth, mBoxHeight);
             if (i != 0) {
                 layoutParams.leftMargin = mBoxMargin;
             }
             TextView textView = mTextViewList.get(i);
-            textView.setWidth(mBoxSize);
-            textView.setHeight(mBoxSize);
+            textView.setWidth(mBoxWidth);
+            textView.setHeight(mBoxHeight);
             textView.setLayoutParams(layoutParams);
         }
     }

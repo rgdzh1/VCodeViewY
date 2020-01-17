@@ -6,8 +6,12 @@
         <attr name="box_bum" format="integer" />
         <!--        输入框间隔距离-->
         <attr name="box_margin" format="dimension|reference" />
-        <!--        输入框相对于父容器高度的百分比-->
-        <attr name="box_size_parent_height_rate" format="float" />
+        <!--        &lt;!&ndash;        输入框相对于父容器高度的百分比&ndash;&gt;-->
+        <!--        <attr name="box_size_parent_height_rate" format="float" />-->
+        <!--        输入框宽-->
+        <attr name="box_width" format="dimension|reference" />
+        <!--        输入框高-->
+        <attr name="box_height" format="dimension|reference" />
         <!--        输入框文字大小-->
         <attr name="box_text_size" format="dimension|reference" />
         <!--        输入框文字颜色-->
