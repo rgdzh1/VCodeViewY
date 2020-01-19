@@ -91,12 +91,9 @@ public class VCodeViewY extends FrameLayout {
             //TODO 这里Text的大小与边距都没有设置, 在onLayout中去设置
             TextView mTextView = new TextView(getContext());
             mTextView.setTextColor(mBoxTextColor);
-            mTextView.setTextSize(mBoxTextSize);
+            //为Paint画笔设置大小, 不会在有适配问题
+            mTextView.getPaint().setTextSize(mBoxTextSize);
             mTextView.setGravity(Gravity.CENTER);
-//            if (mBoxPwdModel){
-//                //密码模式
-//                mTextView.setTransformationMethod(PasswordTransformationMethod.getInstance());
-//            }
             if (i == 0) {
                 mTextView.setBackgroundResource(mBoxFocus);
             } else {
@@ -118,7 +115,6 @@ public class VCodeViewY extends FrameLayout {
                 break;
         }
     }
-
 
 
     @Override
