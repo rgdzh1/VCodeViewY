@@ -301,9 +301,9 @@ public class VCodeViewY extends FrameLayout {
     }
 
     /**
-     * 显示或者隐藏输入
+     * 显示或者隐藏输入内容
      */
-    public void setTextModel() {
+    public void changeModel() {
         mBoxPwdModel = !mBoxPwdModel;
         for (int i = 0; i < mTextViewList.size(); i++) {
             final TextView textView = mTextViewList.get(i);

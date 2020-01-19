@@ -37,7 +37,7 @@ group = "com.yey.vcodevy"
 //libName(库的名字)
 def libName = "VCodeViewY"
 //version(版本号)
-version = "0.1.0"
+version = "0.1.2"
 //生成源文件
 task sourcesJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
