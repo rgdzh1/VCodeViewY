@@ -102,7 +102,6 @@ public class VCodeViewY extends FrameLayout {
             mTextViewList.add(mTextView);
             mContainerText.addView(mTextView);
         }
-
     }
 
     private void initEditText() {
@@ -319,7 +318,7 @@ public class VCodeViewY extends FrameLayout {
     /**
      * @return 控件当前展示的是明文还是密文, 密文为true,明文为false
      */
-    public boolean boxPwdModel() {
+    public boolean isPwdModel() {
         return mBoxPwdModel;
     }
 
