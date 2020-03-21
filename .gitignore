@@ -58,6 +58,9 @@ freeline.py
 freeline/
 freeline_project_description.json
 
+#jcenter上传删除有用信息
+bintray.properties
+
 # fastlane
 fastlane/report.xml
 fastlane/Preview.html
