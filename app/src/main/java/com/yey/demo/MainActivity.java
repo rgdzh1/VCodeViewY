@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mCodeViewY.setTextModel();
+                        mCodeViewY.changeModel();
                     }
                 });
         findViewById(R.id.fill).setOnClickListener(new View.OnClickListener() {
