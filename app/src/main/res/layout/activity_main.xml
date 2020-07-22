@@ -1,44 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <com.yey.vcodevy.VCodeViewY
-        android:id="@+id/vcv"
+    <data>
+
+    </data>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="100dp"
-        app:box_bum="5"
-        app:box_height="30dp"
-        app:box_width="30dp"
-        app:box_input_type="number"
-        app:box_margin="5dp"
-        app:box_pwd_model="false"
-        app:box_text_color="@color/colorPrimary"
-        app:box_text_size="14sp" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/clear"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="20dp"
-        android:text="清空" />
+        <com.yey.vcodevy.YBooxsVerify
+            android:id="@+id/vcv"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="100dp"
+            app:box_bum="5"
+            app:box_height="30dp"
+            app:box_width="30dp"
+            app:box_input_type="number"
+            app:box_margin="5dp"
+            app:box_pwd_model="false"
+            app:box_text_color="@color/colorPrimary"
+            app:box_text_size="14sp" />
 
-    <Button
-        android:id="@+id/show"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="20dp"
-        android:text="明文密文切换" />
+        <Button
+            android:id="@+id/clear"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:text="清空" />
 
-    <Button
-        android:id="@+id/fill"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="20dp"
-        android:text="内容填充" />
+        <Button
+            android:id="@+id/show"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:text="明文密文切换" />
 
-</LinearLayout>
+        <Button
+            android:id="@+id/fill"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:text="内容填充" />
+
+        <Button
+            android:id="@+id/btn_softekeyboard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="测试软键盘" />
+
+    </LinearLayout>
+</layout>

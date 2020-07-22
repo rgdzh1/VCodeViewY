@@ -21,10 +21,12 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import com.yey.vcodevy.widget.PwdEditText;
+
 import java.util.ArrayList;
 
-public class VCodeViewY extends FrameLayout {
-    private final static String TAG = VCodeViewY.class.getName();
+public class YBooxsVerify extends FrameLayout {
+    private final static String TAG = YBooxsVerify.class.getName();
     private LinearLayout mContainerText;
     private PwdEditText mPet;
     private int mBoxNum;
@@ -46,15 +48,15 @@ public class VCodeViewY extends FrameLayout {
 
     private IVCodeBack mICodeBack;
 
-    public VCodeViewY(Context context) {
+    public YBooxsVerify(Context context) {
         this(context, null);
     }
 
-    public VCodeViewY(Context context, @Nullable AttributeSet attrs) {
+    public YBooxsVerify(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public VCodeViewY(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public YBooxsVerify(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initView(context);
         initRes(context, attrs, defStyleAttr);
@@ -69,17 +71,16 @@ public class VCodeViewY extends FrameLayout {
     }
 
     private void initRes(Context context, AttributeSet attrs, int defStyleAttr) {
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.VCodeViewY, defStyleAttr, 0);
-        mBoxNum = typedArray.getInteger(R.styleable.VCodeViewY_box_bum, 1);
-        mBoxMargin = typedArray.getDimensionPixelSize(R.styleable.VCodeViewY_box_margin, 6);
-        mBoxTextSize = typedArray.getDimensionPixelSize(R.styleable.VCodeViewY_box_text_size, 16);
-        mBoxHeight = typedArray.getDimensionPixelSize(R.styleable.VCodeViewY_box_height, 40);
-        mBoxWidth = typedArray.getDimensionPixelSize(R.styleable.VCodeViewY_box_width, 40);
-        mBoxTextColor = typedArray.getColor(R.styleable.VCodeViewY_box_text_color, getResources().getColor(R.color.vcvy_balck));
-        mBoxFocus = typedArray.getResourceId(R.styleable.VCodeViewY_box_focus, R.drawable.box_focus);
-        mBoxNotFcous = typedArray.getResourceId(R.styleable.VCodeViewY_box_not_focus, R.drawable.box_notfoucs);
-        mBoxPwdModel = typedArray.getBoolean(R.styleable.VCodeViewY_box_pwd_model, false);
-        mInputType = typedArray.getInt(R.styleable.VCodeViewY_box_input_type, 0);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.YBooxsVerify, defStyleAttr, 0);
+        mBoxNum = typedArray.getInteger(R.styleable.YBooxsVerify_box_bum, 1);
+        mBoxMargin = typedArray.getDimensionPixelSize(R.styleable.YBooxsVerify_box_margin, 6);
+        mBoxTextSize = typedArray.getDimensionPixelSize(R.styleable.YBooxsVerify_box_text_size, 16);
+        mBoxHeight = typedArray.getDimensionPixelSize(R.styleable.YBooxsVerify_box_height, 40);
+        mBoxWidth = typedArray.getDimensionPixelSize(R.styleable.YBooxsVerify_box_width, 40);
+        mBoxTextColor = typedArray.getColor(R.styleable.YBooxsVerify_box_text_color, getResources().getColor(R.color.vcvy_balck));
+        mBoxFocus = typedArray.getResourceId(R.styleable.YBooxsVerify_box_focus, R.drawable.box_focus);
+        mBoxNotFcous = typedArray.getResourceId(R.styleable.YBooxsVerify_box_not_focus, R.drawable.box_notfoucs);
+        mBoxPwdModel = typedArray.getBoolean(R.styleable.YBooxsVerify_box_pwd_model, false);
         typedArray.recycle();
     }
 
@@ -146,7 +147,9 @@ public class VCodeViewY extends FrameLayout {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                Log.d(TAG, editable.toString());
+                if (BuildConfig.DEBUG) {
+                    Log.d(TAG, editable.toString());
+                }
                 if (!TextUtils.isEmpty(editable) && mInputIndex >= 0 && mInputIndex < mBoxNum && !mInputComplete) {
                     //1.当EditText中有输入时,将该输入取出展示到mInputIndex对应的textview中
                     //将当前的textview 置为not focus
@@ -328,7 +331,9 @@ public class VCodeViewY extends FrameLayout {
         mRefreshHandler.removeCallbacksAndMessages(null);
     }
 
-    public void setVCodeBack(IVCodeBack ivCodeBack) {
+    public void setInputCallback(IVCodeBack ivCodeBack) {
         this.mICodeBack = ivCodeBack;
     }
+
+
 }

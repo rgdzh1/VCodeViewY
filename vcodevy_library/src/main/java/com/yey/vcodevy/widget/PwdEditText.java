@@ -1,4 +1,4 @@
-package com.yey.vcodevy;
+package com.yey.vcodevy.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -6,6 +6,8 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 
 import androidx.appcompat.widget.AppCompatEditText;
+
+import com.yey.vcodevy.TInputConnection;
 
 /**
  * author slimvan

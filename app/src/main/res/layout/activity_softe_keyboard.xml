@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.yey.vcodevy.YBoxsCustomInput
+            android:id="@+id/vcv"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:box_bum="5"
+            app:box_height="50dp"
+            app:box_margin="5dp"
+            app:box_pwd_model="true"
+            app:box_text_color="@color/colorPrimary"
+            app:box_text_size="14sp"
+            app:box_width="50dp" />
+
+        <Button
+            android:id="@+id/btn_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="输入内容" />
+
+        <Button
+            android:id="@+id/btn_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="删除内容" />
+
+
+    </LinearLayout>
+</layout>

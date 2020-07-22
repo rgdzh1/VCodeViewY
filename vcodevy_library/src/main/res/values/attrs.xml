@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <declare-styleable name="VCodeViewY">
+    <declare-styleable name="YBooxsVerify">
         <!--        输入框数量-->
         <attr name="box_bum" format="integer" />
         <!--        输入框间隔距离-->
@@ -27,6 +27,5 @@
             <enum name="number" value="0" />
             <enum name="text" value="1" />
         </attr>
-
     </declare-styleable>
 </resources>

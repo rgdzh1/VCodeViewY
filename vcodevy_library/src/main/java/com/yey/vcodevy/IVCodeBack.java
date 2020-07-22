@@ -1,5 +1,8 @@
 package com.yey.vcodevy;
 
+/**
+ * 输入完成回调接口
+ */
 public interface IVCodeBack {
     /**
      * 输入完成的内容
