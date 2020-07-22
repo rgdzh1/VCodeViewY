@@ -1,13 +1,13 @@
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
-//加载属性文件
+//加载属性文件packageName
 Properties properties = new Properties()
-File localPropertiesFile = project.file("bintray.properties");
+def localPropertiesFile = project.rootProject.file('local.properties')
 if (localPropertiesFile.exists()) {
     properties.load(localPropertiesFile.newDataInputStream())
 }
-File projectPropertiesFile = project.file("project.properties");
+File projectPropertiesFile = project.file("library.properties");
 if (projectPropertiesFile.exists()) {
     properties.load(projectPropertiesFile.newDataInputStream())
 }
@@ -88,6 +88,13 @@ task javadoc(type: Javadoc) {
 task javadocJar(type: Jar, dependsOn: javadoc) {
     classifier = 'javadoc'
     from javadoc.destinationDir
+}
+
+// 处理javadoc打包的时候报错,配置这段很好用
+tasks.withType(Javadoc) {
+    options.addStringOption('Xdoclint:none', '-quiet')
+    options.addStringOption('encoding', 'UTF-8')
+    options.addStringOption('charSet', 'UTF-8')
 }
 
 artifacts {
