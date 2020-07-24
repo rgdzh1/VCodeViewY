@@ -1,6 +1,7 @@
 package com.yey.demo;
 
 import android.os.Bundle;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,6 +21,13 @@ public class SofteKeyboardActivity extends AppCompatActivity {
         dataBinding = (ActivitySofteKeyboardBinding) DataBindingUtil.setContentView(this, R.layout.activity_softe_keyboard);
         dataBinding.setLifecycleOwner(this);
         initLister();
+
+//        dataBinding.et.setTransformationMethod(new UpperTransform());
+//        dataBinding.et.setTransformationMethod(new MyPasswordTransformationMethod());
+        dataBinding.et.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        dataBinding.tv1.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        dataBinding.tv2.setTransformationMethod(new YPasswordTransformation());
+        dataBinding.tv3.setTransformationMethod(new YPasswordTransformation());
     }
 
     private void initLister() {

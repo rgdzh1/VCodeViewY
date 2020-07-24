@@ -7,8 +7,6 @@ import android.view.inputmethod.InputConnection;
 
 import androidx.appcompat.widget.AppCompatEditText;
 
-import com.yey.vcodevy.TInputConnection;
-
 /**
  * author slimvan
  * email: slimvan@163.com
@@ -40,8 +38,8 @@ public class PwdEditText extends AppCompatEditText {
 
     /**
      * 当输入法和EditText建立连接的时候会通过这个方法返回一个InputConnection。
-            * 我们需要代理这个方法的父类方法生成的InputConnection并返回我们自己的代理类。
-            * */
+     * 我们需要代理这个方法的父类方法生成的InputConnection并返回我们自己的代理类。
+     * */
     @Override
     public InputConnection onCreateInputConnection(EditorInfo outAttrs) {
         inputConnection.setTarget(super.onCreateInputConnection(outAttrs));

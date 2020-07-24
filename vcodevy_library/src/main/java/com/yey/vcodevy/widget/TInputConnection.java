@@ -1,4 +1,4 @@
-package com.yey.vcodevy;
+package com.yey.vcodevy.widget;
 
 import android.view.KeyEvent;
 import android.view.inputmethod.InputConnection;

@@ -22,6 +22,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import com.yey.vcodevy.widget.PwdEditText;
+import com.yey.vcodevy.widget.TInputConnection;
 
 import java.util.ArrayList;
 

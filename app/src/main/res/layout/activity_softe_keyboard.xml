@@ -38,6 +38,32 @@
             android:layout_gravity="center_horizontal"
             android:text="删除内容" />
 
+        <EditText
+            android:id="@+id/et"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:textSize="14sp" />
 
+        <TextView
+            android:id="@+id/tv_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="好"
+            android:textSize="14sp" />
+        <TextView
+            android:id="@+id/tv_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="好"
+            android:textSize="20sp" />
+        <TextView
+            android:id="@+id/tv_3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="好"
+            android:textSize="14sp" />
     </LinearLayout>
 </layout>
