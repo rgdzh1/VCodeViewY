@@ -83,7 +83,7 @@ public class SofteKeyboardActivity extends AppCompatActivity implements View.OnC
     private void deleteNumber() {
         mDataBinding.vcv.deleteContent();
         String mCodeStr = mDataBinding.vcv.getContent();
-        Toast.makeText(this, mCodeStr, Toast.LENGTH_LONG);
+        Toast.makeText(this, mCodeStr, Toast.LENGTH_LONG).show();
     }
 
     /**
@@ -92,6 +92,6 @@ public class SofteKeyboardActivity extends AppCompatActivity implements View.OnC
     private void inputNumber(int content) {
         mDataBinding.vcv.inputContent(String.valueOf(content));
         String mCodeStr = mDataBinding.vcv.getContent();
-        Toast.makeText(this, mCodeStr, Toast.LENGTH_LONG);
+        Toast.makeText(this, mCodeStr, Toast.LENGTH_LONG).show();
     }
 }
