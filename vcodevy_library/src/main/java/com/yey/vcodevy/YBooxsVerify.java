@@ -2,6 +2,7 @@ package com.yey.vcodevy;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Typeface;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.Editable;
@@ -10,6 +11,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.text.method.TransformationMethod;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
@@ -23,6 +25,7 @@ import androidx.annotation.Nullable;
 
 import com.yey.vcodevy.widget.PwdEditText;
 import com.yey.vcodevy.widget.TInputConnection;
+import com.yey.vcodevy.widget.YPasswordTransformation;
 
 import java.util.ArrayList;
 
@@ -35,14 +38,17 @@ public class YBooxsVerify extends FrameLayout {
     private float mBoxTextSize;
     private int mBoxFocus;
     private int mBoxNotFcous;
-    private boolean mBoxPwdModel;
+    private boolean isPwd;
     private ArrayList<TextView> mTextViewList;
     private int mBoxTextColor;
     private int mInputIndex;//输入索引
-    private int mInputType;
+    private int mEditTextType;// 键盘类型 数字 或者文字
+    private int mBoxPwdDotSize;// 密文模式下,黑点是大还是小
     private boolean mInputComplete;
+    private boolean isTextBoldStyle;// 明文字体是否为粗体 true 粗体
     private int mBoxHeight;
     private int mBoxWidth;
+    private TransformationMethod mPwdTransformationMethod;
     //明文属性转为密文属性 handler
     private Handler mRefreshHandler = new Handler(Looper.getMainLooper());
     private StringBuffer mContentBuffer = new StringBuffer();
@@ -61,16 +67,29 @@ public class YBooxsVerify extends FrameLayout {
         super(context, attrs, defStyleAttr);
         initView(context);
         initRes(context, attrs, defStyleAttr);
-        creatView();
+        initData();
         initLister();
     }
 
+
+    /**
+     * 初始化View
+     *
+     * @param context
+     */
     private void initView(Context context) {
         LayoutInflater.from(context).inflate(R.layout.layout_vcodeviewy, this);
-        mContainerText = (LinearLayout) findViewById(R.id.ll_text);
-        mPet = (PwdEditText) findViewById(R.id.pet);
+        mContainerText = findViewById(R.id.ll_text);
+        mPet = findViewById(R.id.pet);
     }
 
+    /**
+     * 初始化资源
+     *
+     * @param context
+     * @param attrs
+     * @param defStyleAttr
+     */
     private void initRes(Context context, AttributeSet attrs, int defStyleAttr) {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.YBooxsVerify, defStyleAttr, 0);
         mBoxNum = typedArray.getInteger(R.styleable.YBooxsVerify_box_bum, 1);
@@ -81,12 +100,42 @@ public class YBooxsVerify extends FrameLayout {
         mBoxTextColor = typedArray.getColor(R.styleable.YBooxsVerify_box_text_color, getResources().getColor(R.color.vcvy_balck));
         mBoxFocus = typedArray.getResourceId(R.styleable.YBooxsVerify_box_focus, R.drawable.box_focus);
         mBoxNotFcous = typedArray.getResourceId(R.styleable.YBooxsVerify_box_not_focus, R.drawable.box_notfoucs);
-        mBoxPwdModel = typedArray.getBoolean(R.styleable.YBooxsVerify_box_pwd_model, false);
+        isPwd = typedArray.getBoolean(R.styleable.YBooxsVerify_box_pwd_model, false);
+        mEditTextType = typedArray.getInt(R.styleable.YBooxsVerify_box_input_type, 0);
+        mBoxPwdDotSize = typedArray.getInt(R.styleable.YBooxsVerify_box_pwd_dot_size, 0);
+        isTextBoldStyle = typedArray.getBoolean(R.styleable.YBooxsVerify_box_text_style, false);
         typedArray.recycle();
     }
 
-    private void creatView() {
-        initEditText();
+    /**
+     * 初始化数据
+     */
+    private void initData() {
+        // 设置输入数据类型
+        setPetInputType();
+        // 设置黑色点大还是小
+        setBoxPwdDotSize();
+        // 创建TextViews
+        creatTextViews();
+    }
+
+    /**
+     * 设置黑色圆点大小
+     */
+    private void setBoxPwdDotSize() {
+        if (mBoxPwdDotSize == 0) {
+            // 大
+            mPwdTransformationMethod = YPasswordTransformation.getInstance();
+        } else if (mBoxPwdDotSize == 1) {
+            // 小
+            mPwdTransformationMethod = PasswordTransformationMethod.getInstance();
+        }
+    }
+
+    /**
+     * 创建展示数据用的TextVie
+     */
+    private void creatTextViews() {
         mTextViewList = new ArrayList<>();
         mTextViewList.clear();
         for (int i = 0; i < mBoxNum; i++) {
@@ -95,6 +144,9 @@ public class YBooxsVerify extends FrameLayout {
             mTextView.setTextColor(mBoxTextColor);
             //为Paint画笔设置大小, 不会在有适配问题
             mTextView.getPaint().setTextSize(mBoxTextSize);
+            if (isTextBoldStyle) {
+                mTextView.getPaint().setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+            }
             mTextView.setGravity(Gravity.CENTER);
             if (i == 0) {
                 mTextView.setBackgroundResource(mBoxFocus);
@@ -106,8 +158,11 @@ public class YBooxsVerify extends FrameLayout {
         }
     }
 
-    private void initEditText() {
-        switch (mInputType) {
+    /**
+     * 设置EditText能接收的输入数据类型
+     */
+    private void setPetInputType() {
+        switch (mEditTextType) {
             case 0:
                 mPet.setInputType(InputType.TYPE_CLASS_NUMBER);
                 break;
@@ -121,6 +176,13 @@ public class YBooxsVerify extends FrameLayout {
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
+        setTextViewMargin();
+    }
+
+    /**
+     * 设置每个TextView之间的间距
+     */
+    private void setTextViewMargin() {
         for (int i = 0; i < mBoxNum; i++) {
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(mBoxWidth, mBoxHeight);
             if (i != 0) {
@@ -135,6 +197,7 @@ public class YBooxsVerify extends FrameLayout {
 
 
     private void initLister() {
+        // 监听EditText的输入
         mPet.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -164,12 +227,12 @@ public class YBooxsVerify extends FrameLayout {
                         mICodeBack.inputing(mContentBuffer.toString(), mInputIndex);
                     }
                     notFouceTextView.setBackgroundResource(mBoxNotFcous);
-                    if (mBoxPwdModel) {
+                    if (isPwdStatus()) {
                         mRefreshHandler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
                                 //将textview 属性改为密文属性, 延迟200毫秒从明文变为密文
-                                notFouceTextView.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                                notFouceTextView.setTransformationMethod(mPwdTransformationMethod);
                             }
                         }, 200);
                     }
@@ -194,6 +257,7 @@ public class YBooxsVerify extends FrameLayout {
                 }
             }
         });
+        // 监听键盘删除按钮
         mPet.setBackSpaceListener(new TInputConnection.BackspaceListener() {
             @Override
             public boolean onBackspace() {
@@ -206,7 +270,7 @@ public class YBooxsVerify extends FrameLayout {
                         //此时输入完成,将最后一个textview内容删除,但是mInputIndex 不要进行减1
                         //此时最后一个textview背景还是focus
                         mLastText.setText("");
-                        if (mBoxPwdModel) {
+                        if (isPwdStatus()) {
                             mLastText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                         }
                     } else {
@@ -224,7 +288,7 @@ public class YBooxsVerify extends FrameLayout {
                         TextView notFouceTextView = mTextViewList.get(mInputIndex);
                         notFouceTextView.setText("");
                         notFouceTextView.setBackgroundResource(mBoxFocus);
-                        if (mBoxPwdModel) {
+                        if (isPwdStatus()) {
                             notFouceTextView.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                         }
                     }
@@ -276,8 +340,8 @@ public class YBooxsVerify extends FrameLayout {
                 char[] chars = content.toCharArray();
                 for (int i = 0; i < chars.length; i++) {
                     final TextView textView = mTextViewList.get(i);
-                    if (mBoxPwdModel) {
-                        textView.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    if (isPwdStatus()) {
+                        textView.setTransformationMethod(mPwdTransformationMethod);
                     } else {
                         textView.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                     }
@@ -308,11 +372,11 @@ public class YBooxsVerify extends FrameLayout {
      * 显示或者隐藏输入内容
      */
     public void changeModel() {
-        mBoxPwdModel = !mBoxPwdModel;
+        isPwd = !isPwd;
         for (int i = 0; i < mTextViewList.size(); i++) {
             final TextView textView = mTextViewList.get(i);
-            if (mBoxPwdModel) {
-                textView.setTransformationMethod(PasswordTransformationMethod.getInstance());
+            if (isPwd) {
+                textView.setTransformationMethod(mPwdTransformationMethod);
             } else {
                 textView.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
             }
@@ -320,10 +384,10 @@ public class YBooxsVerify extends FrameLayout {
     }
 
     /**
-     * @return 控件当前展示的是明文还是密文, 密文为true,明文为false
+     * @return 是否是密文状态 密文为true,明文为false
      */
-    public boolean isPwdModel() {
-        return mBoxPwdModel;
+    public boolean isPwdStatus() {
+        return isPwd;
     }
 
     @Override
@@ -335,6 +399,4 @@ public class YBooxsVerify extends FrameLayout {
     public void setInputCallback(IVCodeBack ivCodeBack) {
         this.mICodeBack = ivCodeBack;
     }
-
-
 }

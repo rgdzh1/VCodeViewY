@@ -15,7 +15,8 @@
         <com.yey.vcodevy.YBoxsCustomInput
             android:id="@+id/vcv"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             app:box_bum="5"
             app:box_height="50dp"
             app:box_margin="5dp"
@@ -24,46 +25,12 @@
             app:box_text_size="14sp"
             app:box_width="50dp" />
 
-        <Button
-            android:id="@+id/btn_input"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="输入内容" />
-
-        <Button
-            android:id="@+id/btn_delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="删除内容" />
-
-        <EditText
-            android:id="@+id/et"
+        <include
+            android:id="@+id/key_board"
+            layout="@layout/layout_keyboard"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/tv_1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="好"
-            android:textSize="14sp" />
-        <TextView
-            android:id="@+id/tv_2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="好"
-            android:textSize="20sp" />
-        <TextView
-            android:id="@+id/tv_3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="好"
-            android:textSize="14sp" />
+            android:layout_height="0dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1" />
     </LinearLayout>
 </layout>

@@ -15,16 +15,18 @@
         <com.yey.vcodevy.YBooxsVerify
             android:id="@+id/vcv"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:layout_marginTop="100dp"
             app:box_bum="5"
-            app:box_height="30dp"
-            app:box_width="30dp"
-            app:box_input_type="number"
+            app:box_height="40dp"
+            app:box_input_type="text"
             app:box_margin="5dp"
+            app:box_pwd_dot_size="large"
             app:box_pwd_model="false"
             app:box_text_color="@color/colorPrimary"
-            app:box_text_size="14sp" />
+            app:box_text_size="18sp"
+            app:box_text_style="true"
+            app:box_width="40dp" />
 
         <Button
             android:id="@+id/clear"

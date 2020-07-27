@@ -1,7 +1,10 @@
-package com.yey.demo;
+package com.yey.vcodevy.widget;
 
 import android.text.method.ReplacementTransformationMethod;
 
+/**
+ * `EditTextView`接收的内容为`A`,但希望展示出来的是`♠`,当获取`EditTextView`中内容依旧为'A'.
+ */
 public class YPeachCharTransform extends ReplacementTransformationMethod {
     @Override
     protected char[] getOriginal() {

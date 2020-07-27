@@ -27,5 +27,12 @@
             <enum name="number" value="0" />
             <enum name="text" value="1" />
         </attr>
+        <!--        密文模式下,小黑点是大还是小-->
+        <attr name="box_pwd_dot_size">
+            <enum name="large" value="0" />
+            <enum name="small" value="1" />
+        </attr>
+        <!--        明文下字体是否为粗体-->
+        <attr name="box_text_style" format="boolean" />
     </declare-styleable>
 </resources>
