@@ -10,7 +10,6 @@ import android.view.View;
 
 import com.yey.demo.databinding.ActivityMainBinding;
 import com.yey.vcodevy.IVCodeBack;
-import com.yey.vcodevy.YBooxsVerify;
 
 public class MainActivity extends AppCompatActivity {
     private final static String TAG = MainActivity.class.getName();

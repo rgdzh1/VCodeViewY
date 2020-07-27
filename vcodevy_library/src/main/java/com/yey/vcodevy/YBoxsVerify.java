@@ -29,8 +29,8 @@ import com.yey.vcodevy.widget.YPasswordTransformation;
 
 import java.util.ArrayList;
 
-public class YBooxsVerify extends FrameLayout {
-    private final static String TAG = YBooxsVerify.class.getName();
+public class YBoxsVerify extends FrameLayout {
+    private final static String TAG = YBoxsVerify.class.getName();
     private LinearLayout mContainerText;
     private PwdEditText mPet;
     private int mBoxNum;
@@ -55,15 +55,15 @@ public class YBooxsVerify extends FrameLayout {
 
     private IVCodeBack mICodeBack;
 
-    public YBooxsVerify(Context context) {
+    public YBoxsVerify(Context context) {
         this(context, null);
     }
 
-    public YBooxsVerify(Context context, @Nullable AttributeSet attrs) {
+    public YBoxsVerify(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public YBooxsVerify(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public YBoxsVerify(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initView(context);
         initRes(context, attrs, defStyleAttr);
@@ -91,19 +91,19 @@ public class YBooxsVerify extends FrameLayout {
      * @param defStyleAttr
      */
     private void initRes(Context context, AttributeSet attrs, int defStyleAttr) {
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.YBooxsVerify, defStyleAttr, 0);
-        mBoxNum = typedArray.getInteger(R.styleable.YBooxsVerify_box_bum, 1);
-        mBoxMargin = typedArray.getDimensionPixelSize(R.styleable.YBooxsVerify_box_margin, 6);
-        mBoxTextSize = typedArray.getDimensionPixelSize(R.styleable.YBooxsVerify_box_text_size, 16);
-        mBoxHeight = typedArray.getDimensionPixelSize(R.styleable.YBooxsVerify_box_height, 40);
-        mBoxWidth = typedArray.getDimensionPixelSize(R.styleable.YBooxsVerify_box_width, 40);
-        mBoxTextColor = typedArray.getColor(R.styleable.YBooxsVerify_box_text_color, getResources().getColor(R.color.vcvy_balck));
-        mBoxFocus = typedArray.getResourceId(R.styleable.YBooxsVerify_box_focus, R.drawable.box_focus);
-        mBoxNotFcous = typedArray.getResourceId(R.styleable.YBooxsVerify_box_not_focus, R.drawable.box_notfoucs);
-        isPwd = typedArray.getBoolean(R.styleable.YBooxsVerify_box_pwd_model, false);
-        mEditTextType = typedArray.getInt(R.styleable.YBooxsVerify_box_input_type, 0);
-        mBoxPwdDotSize = typedArray.getInt(R.styleable.YBooxsVerify_box_pwd_dot_size, 0);
-        isTextBoldStyle = typedArray.getBoolean(R.styleable.YBooxsVerify_box_text_style, false);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.YBoxsVerify, defStyleAttr, 0);
+        mBoxNum = typedArray.getInteger(R.styleable.YBoxsVerify_box_bum, 1);
+        mBoxMargin = typedArray.getDimensionPixelSize(R.styleable.YBoxsVerify_box_margin, 6);
+        mBoxTextSize = typedArray.getDimensionPixelSize(R.styleable.YBoxsVerify_box_text_size, 16);
+        mBoxHeight = typedArray.getDimensionPixelSize(R.styleable.YBoxsVerify_box_height, 40);
+        mBoxWidth = typedArray.getDimensionPixelSize(R.styleable.YBoxsVerify_box_width, 40);
+        mBoxTextColor = typedArray.getColor(R.styleable.YBoxsVerify_box_text_color, getResources().getColor(R.color.vcvy_balck));
+        mBoxFocus = typedArray.getResourceId(R.styleable.YBoxsVerify_box_focus, R.drawable.box_focus);
+        mBoxNotFcous = typedArray.getResourceId(R.styleable.YBoxsVerify_box_not_focus, R.drawable.box_notfoucs);
+        isPwd = typedArray.getBoolean(R.styleable.YBoxsVerify_box_pwd_model, false);
+        mEditTextType = typedArray.getInt(R.styleable.YBoxsVerify_box_input_type, 0);
+        mBoxPwdDotSize = typedArray.getInt(R.styleable.YBoxsVerify_box_pwd_dot_size, 0);
+        isTextBoldStyle = typedArray.getBoolean(R.styleable.YBoxsVerify_box_text_style, false);
         typedArray.recycle();
     }
 

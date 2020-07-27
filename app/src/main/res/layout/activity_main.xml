@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.yey.vcodevy.YBooxsVerify
+        <com.yey.vcodevy.YBoxsVerify
             android:id="@+id/vcv"
             android:layout_width="match_parent"
             android:layout_height="40dp"

@@ -1,2 +1,3 @@
 include ':app', ':vcodevy_library'
-rootProject.name='VCodeViewY'
+rootProject.name='YBoxsVerify'
+

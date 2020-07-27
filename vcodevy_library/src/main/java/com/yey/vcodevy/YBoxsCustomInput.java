@@ -72,18 +72,18 @@ public class YBoxsCustomInput extends LinearLayout {
      * @param defStyleAttr
      */
     private void initRes(Context context, AttributeSet attrs, int defStyleAttr) {
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.YBooxsVerify, defStyleAttr, 0);
-        mBoxNum = typedArray.getInteger(R.styleable.YBooxsVerify_box_bum, 1);
-        mBoxMargin = typedArray.getDimensionPixelSize(R.styleable.YBooxsVerify_box_margin, 6);
-        mBoxTextSize = typedArray.getDimensionPixelSize(R.styleable.YBooxsVerify_box_text_size, 16);
-        mBoxHeight = typedArray.getDimensionPixelSize(R.styleable.YBooxsVerify_box_height, 40);
-        mBoxWidth = typedArray.getDimensionPixelSize(R.styleable.YBooxsVerify_box_width, 40);
-        mBoxTextColor = typedArray.getColor(R.styleable.YBooxsVerify_box_text_color, getResources().getColor(R.color.vcvy_balck));
-        mBoxFocus = typedArray.getResourceId(R.styleable.YBooxsVerify_box_focus, R.drawable.box_focus);
-        mBoxNotFcous = typedArray.getResourceId(R.styleable.YBooxsVerify_box_not_focus, R.drawable.box_notfoucs);
-        isPwd = typedArray.getBoolean(R.styleable.YBooxsVerify_box_pwd_model, false);
-        mBoxPwdDotSize = typedArray.getInt(R.styleable.YBooxsVerify_box_pwd_dot_size, 0);
-        isTextBoldStyle = typedArray.getBoolean(R.styleable.YBooxsVerify_box_text_style, false);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.YBoxsVerify, defStyleAttr, 0);
+        mBoxNum = typedArray.getInteger(R.styleable.YBoxsVerify_box_bum, 1);
+        mBoxMargin = typedArray.getDimensionPixelSize(R.styleable.YBoxsVerify_box_margin, 6);
+        mBoxTextSize = typedArray.getDimensionPixelSize(R.styleable.YBoxsVerify_box_text_size, 16);
+        mBoxHeight = typedArray.getDimensionPixelSize(R.styleable.YBoxsVerify_box_height, 40);
+        mBoxWidth = typedArray.getDimensionPixelSize(R.styleable.YBoxsVerify_box_width, 40);
+        mBoxTextColor = typedArray.getColor(R.styleable.YBoxsVerify_box_text_color, getResources().getColor(R.color.vcvy_balck));
+        mBoxFocus = typedArray.getResourceId(R.styleable.YBoxsVerify_box_focus, R.drawable.box_focus);
+        mBoxNotFcous = typedArray.getResourceId(R.styleable.YBoxsVerify_box_not_focus, R.drawable.box_notfoucs);
+        isPwd = typedArray.getBoolean(R.styleable.YBoxsVerify_box_pwd_model, false);
+        mBoxPwdDotSize = typedArray.getInt(R.styleable.YBoxsVerify_box_pwd_dot_size, 0);
+        isTextBoldStyle = typedArray.getBoolean(R.styleable.YBoxsVerify_box_text_style, false);
         typedArray.recycle();
     }
 

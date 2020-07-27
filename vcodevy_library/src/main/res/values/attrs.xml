@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <declare-styleable name="YBooxsVerify">
+    <declare-styleable name="YBoxsVerify">
         <!--        输入框数量-->
         <attr name="box_bum" format="integer" />
         <!--        输入框间隔距离-->
