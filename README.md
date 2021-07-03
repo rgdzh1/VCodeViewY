@@ -164,5 +164,5 @@ private void inputNumber(int content) {
     Toast.makeText(this, mCodeStr, Toast.LENGTH_LONG).show();
 }
 ```
-##### [DEMO下载](https://github.com/rgdzh1/YBoxsVerify/raw/master/demo/app_boxsverify.apk)
+##### DEMO下载
  <img src="下载.png" style="zoom:50%">
