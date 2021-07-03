@@ -17,7 +17,16 @@
 |box_text_style|明文下字体是否为粗体|
 #### 依赖
 ```groovy
-implementation 'com.yey.vcodevy:vcodevy_library:0.1.7'
+// 1.
+allprojects {
+    repositories {
+        maven { url 'https://jitpack.io' }
+    }
+}
+// 2.
+dependencies {
+    implementation 'com.github.rgdzh1:YBoxsVerify:0.1.8'
+}
 ```
 #### 两种不同场景的使用
 ##### 系统键盘输入场景下使用

@@ -9,7 +9,7 @@ android {
         minSdkVersion 18
         targetSdkVersion 29
         versionCode 1
-        versionName "0.1.7"
+        versionName "0.1.8"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -41,6 +41,3 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }
-//必须放这里,不然提示这个错误
-//Caused by: java.lang.NullPointerException: android.compileSdkVersion is missing!
-apply from: "bintrayUpload.gradle"
