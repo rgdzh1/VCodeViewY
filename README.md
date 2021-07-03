@@ -165,4 +165,4 @@ private void inputNumber(int content) {
 }
 ```
 ##### DEMO下载
- <img src="下载.png" style="zoom:50%">
+<img src="下载.png" style="zoom:50%">
